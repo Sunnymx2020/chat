@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hacker Chat</title>
+  <style>
+    body {
+      background: #0f0f0f;
+      color: #00ff00;
+      font-family: monospace;
+      padding: 20px;
+      overflow: hidden;
+    }
+    #chat-box {
+      height: 70vh;
+      overflow-y: auto;
+      border: 1px solid #00ff00;
+      padding: 10px;
+      margin-bottom: 10px;
+      background: #000000;
+    }
+    input[type="text"] {
+      width: 80%;
+      padding: 10px;
+      background: #111;
+      color: #0f0;
+      border: 1px solid #0f0;
+    }
+    button {
+      padding: 10px;
+      background: #0f0;
+      color: #000;
+      border: none;
+      cursor: pointer;
+    }
+    .msg {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>> Hacker Chat Terminal</h1>
+  <div id="chat-box"></div>
+  <input type="text" id="msg-input" placeholder="Type a message...">
+  <button onclick="sendMessage()">Send</button>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+
+  <script>
+    // ✅ Your Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBPF1VE82Y3VkZe6IibjqKxBC-XHjM_Wco",
+      authDomain: "chat-2024-ff149.firebaseapp.com",
+      databaseURL: "https://chat-2024-ff149-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "chat-2024-ff149",
+      storageBucket: "chat-2024-ff149.appspot.com",
+      messagingSenderId: "146349109253",
+      appId: "1:146349109253:android:e593afbf0584762519ac6c"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    const chatBox = document.getElementById('chat-box');
+    const msgInput = document.getElementById('msg-input');
+
+    function sendMessage() {
+      const msg = msgInput.value.trim();
+      if (msg !== "") {
+        db.ref("messages").push({
+          text: msg,
+          time: Date.now()
+        });
+        msgInput.value = "";
+      }
+    }
+
+    db.ref("messages").on("child_added", function(snapshot) {
+      const msg = snapshot.val();
+      const msgElem = document.createElement("div");
+      msgElem.className = "msg";
+      msgElem.textContent = "> " + msg.text;
+      chatBox.appendChild(msgElem);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    });
+
+    msgInput.addEventListener("keypress", function(e) {
+      if (e.key === "Enter") sendMessage();
+    });
+  </script>
+</body>
+</html>
