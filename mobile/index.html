@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="theme-color" content="#0a0a0a">
+  <title>Hacker Chat</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon.png">
+</head>
+<body>
+  <div id="scanlines"></div>
+  <div id="noise"></div>
+  <div id="terminal">
+    <div id="header">
+      <h1 id="title">> HACKER CHAT <span class="blinking-cursor">_</span></h1>
+      <div id="connection-status" class="connected">ONLINE</div>
+    </div>
+    <div id="chat-box"></div>
+    <div id="input-area">
+      <span class="prompt">></span>
+      <input type="text" id="msg-input" placeholder="Type message..." autocomplete="off">
+      <button id="send-btn" onclick="sendMessage()">↵</button>
+    </div>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+  
+  <script src="script.js"></script>
+</body>
+</html>
