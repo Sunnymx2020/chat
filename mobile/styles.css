@@ -1,0 +1,255 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+:root {
+  --primary-color: #00ff00;
+  --secondary-color: #00cc00;
+  --bg-color: #0a0a0a;
+  --text-color: #00ff00;
+  --glow-color: rgba(0, 255, 0, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Share Tech Mono', monospace;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  touch-action: manipulation;
+}
+
+#scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0) 50%, 
+    rgba(0, 255, 0, 0.05) 50%
+  );
+  background-size: 100% 3px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+#noise {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABUSURBVGhD7cExAQAAAMKg9U9tCU+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwNQMiAAGQ93Z4AAAAAElFTkSuQmCC');
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 1;
+}
+
+#terminal {
+  position: relative;
+  padding: 15px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  z-index: 0;
+}
+
+#header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--primary-color);
+}
+
+#title {
+  font-size: 1.2rem;
+  text-shadow: 0 0 5px var(--glow-color);
+  animation: text-flicker 3s linear infinite;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#connection-status {
+  font-size: 0.7rem;
+  padding: 3px 8px;
+  border: 1px solid var(--primary-color);
+  border-radius: 3px;
+  text-shadow: 0 0 3px var(--glow-color);
+  flex-shrink: 0;
+}
+
+#connection-status.connected {
+  color: var(--primary-color);
+  animation: pulse 2s infinite;
+}
+
+#connection-status.disconnected {
+  color: #ff0000;
+  border-color: #ff0000;
+}
+
+#chat-box {
+  flex-grow: 1;
+  overflow-y: auto;
+  border: 1px solid var(--primary-color);
+  padding: 10px;
+  margin-bottom: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px var(--glow-color);
+  scrollbar-width: none;
+}
+
+#chat-box::-webkit-scrollbar {
+  display: none;
+}
+
+#input-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 0;
+}
+
+.prompt {
+  color: var(--primary-color);
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+input[type="text"] {
+  flex-grow: 1;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  font-family: 'Share Tech Mono', monospace;
+  outline: none;
+  font-size: 1rem;
+  border-radius: 3px;
+}
+
+input[type="text"]:focus {
+  box-shadow: 0 0 8px var(--glow-color);
+}
+
+button {
+  padding: 10px 15px;
+  background: var(--primary-color);
+  color: #000;
+  border: none;
+  font-family: 'Share Tech Mono', monospace;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 3px;
+  font-size: 1rem;
+}
+
+button:active {
+  background: var(--secondary-color);
+  transform: scale(0.95);
+}
+
+.msg {
+  margin: 6px 0;
+  line-height: 1.3;
+  opacity: 0;
+  animation: fadeIn 0.3s forwards;
+  word-break: break-word;
+  font-size: 0.9rem;
+}
+
+.msg.system {
+  color: #ffff00;
+  font-style: italic;
+}
+
+.blinking-cursor {
+  animation: blink 1s step-end infinite;
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 480px) {
+  #terminal {
+    padding: 10px;
+  }
+  
+  #title {
+    font-size: 1rem;
+  }
+  
+  #chat-box {
+    padding: 8px;
+  }
+  
+  input[type="text"] {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+  
+  button {
+    padding: 8px 12px;
+  }
+  
+  .msg {
+    font-size: 0.85rem;
+  }
+}
+
+/* Portrait orientation warning */
+@media (max-height: 400px) and (orientation: portrait) {
+  body::before {
+    content: "Rotate to portrait for better experience";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #ff0000;
+    color: white;
+    text-align: center;
+    padding: 5px;
+    z-index: 100;
+  }
+}
+
+@keyframes blink {
+  from, to { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes text-flicker {
+  0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+    opacity: 0.99;
+    text-shadow: 0 0 5px var(--glow-color);
+  }
+  20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+    opacity: 0.4;
+    text-shadow: none;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 5px rgba(0, 255, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 255, 0, 0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
