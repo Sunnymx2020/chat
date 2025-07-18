@@ -1,0 +1,69 @@
+body {
+  background: #0a0a0a;
+  color: #00ff00;
+  font-family: 'Courier New', monospace;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#terminal {
+  padding: 20px;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+#output {
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+#input-line {
+  display: flex;
+  align-items: center;
+}
+
+.prompt {
+  margin-right: 8px;
+  color: #00ccff;
+}
+
+#command-input {
+  background: transparent;
+  border: none;
+  color: #00ff00;
+  font-family: 'Courier New', monospace;
+  font-size: 16px;
+  outline: none;
+  flex-grow: 1;
+}
+
+/* Scanlines & Noise Effects (Optional) */
+#scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0) 50%, 
+    rgba(0, 255, 0, 0.05) 50%
+  );
+  background-size: 100% 3px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+#noise {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABUSURBVGhD7cExAQAAAMKg9U9tCU+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwNQMiAAGQ93Z4AAAAAElFTkSuQmCC');
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 1;
+}
